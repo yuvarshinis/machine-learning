@@ -1,0 +1,51 @@
+def find_s(training_data):
+    # Initialize hypothesis with the most specific values
+    hypothesis = ['0'] * (len(training_data[0]) - 1)
+
+    # Process each training example
+    for example in training_data:
+
+        attributes = example[:-1]
+        target = example[-1]
+
+        # FIND-S uses only positive examples
+        if target == "Yes":
+
+            for i in range(len(attributes)):
+
+                # First positive example
+                if hypothesis[i] == '0':
+                    hypothesis[i] = attributes[i]
+
+                # If values are different, generalize
+                elif hypothesis[i] != attributes[i]:
+                    hypothesis[i] = '?'
+
+    return hypothesis
+
+
+# Training data
+training_data = [
+    ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Sunny', 'Warm', 'High',   'Strong', 'Warm', 'Same', 'Yes'],
+    ['Rainy', 'Cold', 'High',   'Strong', 'Warm', 'Change', 'No'],
+    ['Sunny', 'Warm', 'High',   'Strong', 'Cool', 'Change', 'Yes']
+]
+
+# Apply FIND-S
+final_hypothesis = find_s(training_data)
+
+print("Final Hypothesis:")
+print(final_hypothesis)
+
+
+
+
+
+
+
+out put
+Final Hypothesis:
+['Sunny', 'Warm', '?', 'Strong', '?', '?']
+
+out put
