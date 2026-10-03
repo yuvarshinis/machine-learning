@@ -1,0 +1,70 @@
+import csv
+
+# Create training data CSV
+data = [
+    ["Sky", "AirTemp", "Humidity", "Wind", "Water", "Forecast", "EnjoySport"],
+    ["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", "Yes"],
+    ["Sunny", "Warm", "High", "Strong", "Warm", "Same", "Yes"],
+    ["Rainy", "Cold", "High", "Strong", "Warm", "Change", "No"],
+    ["Sunny", "Warm", "High", "Strong", "Cool", "Change", "Yes"]
+]
+
+with open("trainingdata.csv", "w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerows(data)
+
+# Read CSV file
+with open("trainingdata.csv") as file:
+    data = list(csv.reader(file))
+
+examples = data[1:]
+
+# Initialize Specific and General boundaries
+S = ['0'] * 6
+G = [['?'] * 6]
+
+# Candidate Elimination
+for example in examples:
+    x = example[:-1]
+    label = example[-1]
+
+    if label == "Yes":
+
+        for i in range(6):
+            if S[i] == '0':
+                S[i] = x[i]
+            elif S[i] != x[i]:
+                S[i] = '?'
+
+    else:
+
+        new_G = []
+
+        for g in G:
+            for i in range(6):
+                if g[i] == '?' and S[i] != '?' and S[i] != x[i]:
+                    new_h = g.copy()
+                    new_h[i] = S[i]
+                    new_G.append(new_h)
+
+        G = new_G
+
+print("Final Specific Boundary (S):")
+print(S)
+
+print("\nFinal General Boundary (G):")
+for g in G:
+    print(g)
+
+
+
+
+
+out put
+Final Specific Boundary (S):
+['Sunny', 'Warm', '?', 'Strong', '?', '?']
+
+Final General Boundary (G):
+['Sunny', '?', '?', '?', '?', '?']
+['?', 'Warm', '?', '?', '?', '?']
+['?', '?', '?', '?', '?', 'Same']
