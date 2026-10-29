@@ -1,0 +1,31 @@
+from sklearn.tree import DecisionTreeClassifier
+
+# Sample dataset
+X = [
+    [750, 50000, 0],
+    [600, 25000, 2],
+    [800, 80000, 0],
+    [550, 20000, 3],
+    [700, 60000, 1],
+    [580, 30000, 2]
+]
+
+# Credit score categories
+y = [
+    "Good", "Poor", "Good",
+    "Poor", "Good", "Poor"
+]
+
+# Create and train the model
+model = DecisionTreeClassifier(random_state=0)
+model.fit(X, y)
+
+# Predict credit score category
+prediction = model.predict([[720, 55000, 1]])
+
+print("Predicted Credit Score:", prediction[0])
+
+
+
+output
+Predicted Credit Score: Good
