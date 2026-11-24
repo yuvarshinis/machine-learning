@@ -1,0 +1,26 @@
+from sklearn.naive_bayes import GaussianNB
+
+# Dataset: Income, Credit Score, Loan Amount
+X = [
+    [50000, 750, 100000],
+    [25000, 550, 200000],
+    [60000, 800, 150000],
+    [20000, 500, 250000],
+    [45000, 700, 120000],
+    [30000, 580, 200000]
+]
+
+# Loan status: 1 = Approved, 0 = Rejected
+y = [1, 0, 1, 0, 1, 0]
+
+model = GaussianNB()
+model.fit(X, y)
+
+prediction = model.predict([[55000, 760, 100000]])
+
+print("Loan Status:", "Approved" if prediction[0] == 1 else "Rejected")
+
+
+
+output
+Loan Status: Approved
