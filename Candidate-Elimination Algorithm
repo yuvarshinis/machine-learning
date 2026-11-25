@@ -1,0 +1,58 @@
+import csv
+
+data = [
+    ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Rainy', 'Cold', 'High', 'Strong', 'Warm', 'Change', 'No'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change', 'Yes']
+]
+
+with open('trainingdata.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerows(data)
+
+with open('trainingdata.csv') as f:
+    examples = list(csv.reader(f))
+
+S = ['0'] * 6
+G = [['?'] * 6]
+
+for row in examples:
+    x, target = row[:-1], row[-1]
+
+    if target == 'Yes':
+        G = [g for g in G if all(
+            a == '?' or a == b for a, b in zip(g, x)
+        )]
+
+        for i in range(6):
+            if S[i] == '0':
+                S[i] = x[i]
+            elif S[i] != x[i]:
+                S[i] = '?'
+
+    else:
+        new_G = []
+        for g in G:
+            for i in range(6):
+                if g[i] == '?':
+                    h = g.copy()
+                    h[i] = S[i]
+                    if h[i] != '0':
+                        new_G.append(h)
+        G = new_G
+
+print("Final Specific Boundary (S):", S)
+print("Final General Boundary (G):")
+for g in G:
+    print(g)
+
+
+
+output
+Final Specific Boundary (S): ['Sunny', 'Warm', '?', 'Strong', '?', '?']
+Final General Boundary (G):
+['Sunny', '?', '?', '?', '?', '?']
+['?', 'Warm', '?', '?', '?', '?']
+['?', '?', '?', '?', '?', '?']
+['?', '?', '?', 'Strong', '?', '?']
