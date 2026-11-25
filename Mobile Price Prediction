@@ -1,0 +1,24 @@
+from sklearn.tree import DecisionTreeClassifier
+
+# Dataset: RAM, Battery, Storage
+X = [
+    [2, 2000, 16],
+    [4, 3000, 32],
+    [6, 4000, 64],
+    [8, 5000, 128],
+    [3, 2500, 16],
+    [6, 4500, 128]
+]
+
+# Price ranges
+y = ["Low", "Medium", "High", "High", "Low", "High"]
+
+model = DecisionTreeClassifier(random_state=0)
+model.fit(X, y)
+
+prediction = model.predict([[6, 4000, 64]])
+print("Predicted Mobile Price Range:", prediction[0])
+
+
+output
+Predicted Mobile Price Range: High
